@@ -21,7 +21,7 @@ router.post("/register", async (req, res) => {
             const storeData = await finalUser.save();
 
             console.log(storeData);
-            // res.status(201).json({ status: 201, storeData })
+            res.status(201).json({ status: 201, storeData })
 
         }
 
@@ -31,6 +31,34 @@ router.post("/register", async (req, res) => {
     }
 
 })
+
+
+// user Login
+
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body
+    if (!email, !password) {
+        res.status(422).json({ error: "fill out all details" })
+    }
+    try {
+        const userValid = await userdb.findOne({ email })
+        if (userValid) {
+            const isMatch = await bcrypt.compare(password, userValid.password)
+            if (!isMatch) {
+                res.status(422).json({ error: "password not match" })
+            }else{
+                
+            }
+        }
+
+
+    } catch (error) {
+
+    }
+
+
+})
+
 
 module.exports = router;
 

@@ -21,7 +21,7 @@ const Login = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { email, password } = inpVal;
         if (email === "") {
@@ -32,6 +32,21 @@ const Login = () => {
             alert("enter your password")
         } else if (password.length < 6) {
             alert("password must be 6 char")
+        }else{
+            const data = await fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                     email, password
+                })
+            });
+            const res = await data.json()
+            if (res.status === 201) {
+                alert("Registration Successfully done 😃!")
+                setInpVal({ ...inpVal, email: "", password: "" });
+            }
         }
     };
 
