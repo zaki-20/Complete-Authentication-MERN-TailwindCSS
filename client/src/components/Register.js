@@ -18,7 +18,7 @@ const Register = () => {
             [name]: value
         });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         const { fname, email, password, cpassword } = inpVal;
@@ -42,7 +42,21 @@ const Register = () => {
         } else if (password !== cpassword) {
             alert("password abd confirm password must match")
         } else {
-            // console.log("user registration succesfully done");
+            console.log("user registration succesfully done");
+
+            const data = await fetch("/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    fname, email, password, cpassword
+                })
+            });
+            const res = await data.json()
+            console.log(res)
+
+
         }
     };
 
